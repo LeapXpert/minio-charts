@@ -77,7 +77,7 @@ spec:
           command:
             - "/bin/sh"
             - "-ce"
-            - "/usr/bin/docker-entrypoint.sh minio -S {{ .Values.certsPath }} gateway azure {{- template "minio.extraArgs" . }}"
+            - "/usr/bin/docker-entrypoint.sh minio -S {{ .Values.certsPath }} gateway azure {{ .Values.azuregateway.serviceEndpoint }} {{- template "minio.extraArgs" . }}"
           {{- else }}
           {{- if .Values.gcsgateway.enabled }}
           command:
@@ -117,12 +117,12 @@ spec:
             - name: {{ $scheme }}
               containerPort: 9000
           env:
-            - name: MINIO_ACCESS_KEY
+            - name: MINIO_ROOT_USER
               valueFrom:
                 secretKeyRef:
                   name: {{ template "minio.secretName" . }}
                   key: accesskey
-            - name: MINIO_SECRET_KEY
+            - name: MINIO_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "minio.secretName" . }}
@@ -165,6 +165,22 @@ spec:
                 secretKeyRef:
                   name: {{ template "minio.secretName" . }}
                   key: awsSecretAccessKey
+            {{- end }}
+            {{- end }}
+            {{- if .Values.azuregateway.enabled -}}
+            {{- if or .Values.azuregateway.storageAccount .Values.existingSecret }}
+            - name: AZURE_STORAGE_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "minio.secretName" . }}
+                  key: azureStorageAccount
+            {{- end }}
+            {{- if or .Values.azuregateway.storageKey .Values.existingSecret }}
+            - name: AZURE_STORAGE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "minio.secretName" . }}
+                  key: azureStorageKey
             {{- end }}
             {{- end }}
             {{- range $key, $val := .Values.environment }}
