@@ -360,15 +360,17 @@ $ helm install --set existingSecret=my-minio-secret minio/minio
 
 The following fields are expected in the secret:
 
-| .data.<key> in Secret      | Corresponding variable  | Description                                                                       |
-|:---------------------------|:------------------------|:----------------------------------------------------------------------------------|
-| `accesskey`                | `accessKey`             | Access key ID. Mandatory.                                                         |
-| `secretkey`                | `secretKey`             | Secret key. Mandatory.                                                            |
-| `gcs_key.json`             | `gcsgateway.gcsKeyJson` | GCS key if you are using the GCS gateway feature. Optional                        |
-| `awsAccessKeyId`           | `s3gateway.accessKey`   | S3 access key if you are using the S3 gateway feature. Optional                   |
-| `awsSecretAccessKey`       | `s3gateway.secretKey`   | S3 secret key if you are using the S3 gateway feature. Optional                   |
-| `etcd_client_cert.pem`     | `etcd.clientCert`       | Certificate for SSL/TLS connections to etcd. Optional                             |
-| `etcd_client_cert_key.pem` | `etcd.clientCertKey`    | Corresponding key for certificate above. Mandatory when etcd certificate defined. |
+| .data.<key> in Secret      | Corresponding variable        | Description                                                                       |
+|:---------------------------|:------------------------------|:----------------------------------------------------------------------------------|
+| `accesskey`                | `accessKey`                   | Access key ID. Mandatory.                                                         |
+| `secretkey`                | `secretKey`                   | Secret key. Mandatory.                                                            |
+| `gcs_key.json`             | `gcsgateway.gcsKeyJson`       | GCS key if you are using the GCS gateway feature. Optional                        |
+| `awsAccessKeyId`           | `s3gateway.accessKey`         | S3 access key if you are using the S3 gateway feature. Optional                   |
+| `awsSecretAccessKey`       | `s3gateway.secretKey`         | S3 secret key if you are using the S3 gateway feature. Optional                   |
+| `azureStorageAccount`      | `azuregateway.storageAccount` | Azure storage account if you are using the Azure gateway feature. Optional        |
+| `azureStorageKey   `       | `azuregateway.storageKey`     | Azure storage key if you are using the Azure gateway feature. Optional            |
+| `etcd_client_cert.pem`     | `etcd.clientCert`             | Certificate for SSL/TLS connections to etcd. Optional                             |
+| `etcd_client_cert_key.pem` | `etcd.clientCertKey`          | Corresponding key for certificate above. Mandatory when etcd certificate defined. |
 
 All corresponding variables will be ignored in values file.
 
