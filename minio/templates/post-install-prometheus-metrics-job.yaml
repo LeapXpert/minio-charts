@@ -67,19 +67,19 @@ spec:
             - "-c"
             - mc --config-dir {{ .Values.configPathmc }} admin prometheus generate target --json --no-color -q > /workdir/mc.json
           env:
-            - name: MINIO_ACCESS_KEY
+            - name: MINIO_ROOT_USER
               valueFrom:
                 secretKeyRef:
                   name: {{ template "minio.secretName" . }}
                   key: accesskey
-            - name: MINIO_SECRET_KEY
+            - name: MINIO_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "minio.secretName" . }}
                   key: secretkey
             #  mc admin prometheus generate don't really connect to remote server, TLS cert isn't required
             - name: MC_HOST_target
-              value: {{ $scheme }}://$(MINIO_ACCESS_KEY):$(MINIO_SECRET_KEY)@{{ $fullName }}:{{ .Values.service.port }}
+              value: {{ $scheme }}://$(MINIO_ROOT_USER):$(MINIO_ROOT_PASSWORD)@{{ $fullName }}:{{ .Values.service.port }}
           volumeMounts:
             - name: workdir
               mountPath: /workdir
