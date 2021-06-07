@@ -352,3 +352,6 @@ etcd:
   corednsPathPrefix: ""
   clientCert: ""
   clientCertKey: ""
+
+extraVolumeMounts: []
+extraVolumes: []
